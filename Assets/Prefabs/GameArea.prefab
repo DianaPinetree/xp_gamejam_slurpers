@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2857038849220879014}
   - component: {fileID: 7357201375387173816}
+  - component: {fileID: 7674489669891289823}
   m_Layer: 0
   m_Name: GameArea
   m_TagString: Untagged
@@ -46,7 +47,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68aec65d0c9d1d94ea0524f91554c95c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraPointerHandler
+  mask:
+    serializedVersion: 2
+    m_Bits: 51
   cam: {fileID: 0}
+--- !u!114 &7674489669891289823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805910852611117721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37bfe50745649baa5b61819add5fe25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlacementSystem
+  followSpeed: 5
+  rotationSpeed: 45
 --- !u!1 &2191137576416537157
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,8 +169,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.83333755, y: 1, z: 0.444457}
-  m_Center: {x: -0.08333125, y: 3.5526974e-14, z: 0.27777156}
+  m_Size: {x: 0.83333755, y: 0.14774781, z: 0.44445702}
+  m_Center: {x: -0.08333125, y: -0.42612618, z: 0.27777156}
 --- !u!1 &4245802131283623071
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,8 +257,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.26236486, z: 1}
+  m_Center: {x: 0, y: 0.36881757, z: 0}
 --- !u!1 &7193782112467928716
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,8 +310,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1.9886353}
-  m_Center: {x: 0, y: 0, z: 0.49431777}
+  m_Size: {x: 1, y: 0.26623115, z: 1.9886353}
+  m_Center: {x: 0, y: 0.3668844, z: 0.49431777}
 --- !u!1001 &6032021290716444626
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -9,7 +10,6 @@ using Random = UnityEngine.Random;
 public class DecorationButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] private Decoration decoration;
-
     [SerializeField] private Image decorationImage;
     [SerializeField] private TextMeshProUGUI text;
 
@@ -19,6 +19,7 @@ public class DecorationButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
         {
             SetDecoration(decoration);
         }
+
     }
 
     public void SetDecoration(Decoration newDecor)
@@ -36,7 +37,7 @@ public class DecorationButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        transform.DOLocalRotate( new Vector3(0, 0, 10f), 0.4f).SetEase(Ease.InCubic);
+        transform.DOLocalRotate( new Vector3(0, 0, Random.Range(-10, 10f)), 0.1f).SetEase(Ease.InCubic);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -46,6 +47,7 @@ public class DecorationButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        transform.DOPunchScale(Vector3.one * Random.Range(1f, 1.2f), 0.2f).SetEase(Ease.OutQuad);
+        transform.DOPunchScale(Vector3.one * Random.Range(0.1f, 0.3f), 0.2f).SetEase(Ease.OutQuad);
+        GameManager.Instance.SendDecorationSelect_Action(decoration);
     }
 }

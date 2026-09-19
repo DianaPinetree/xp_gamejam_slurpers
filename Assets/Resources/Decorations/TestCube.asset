@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdf92e423db0fb540a65cafcba76c7ab, type: 3}
   m_Name: TestCube
   m_EditorClassIdentifier: Assembly-CSharp::Decoration
+  falas:
+  - 
+  - 
+  - 
+  - 
+  text: 
   decorationImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   decorationName: Test Cube
-  decorationPrefab: {fileID: 0}
+  decorationPrefab: {fileID: 5337585551147511093, guid: c9387526a61bccc4db5995a17d5379e5, type: 3}

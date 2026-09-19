@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 341630959910759380}
   - component: {fileID: 7431215055618997420}
   - component: {fileID: 8309366147749414314}
+  - component: {fileID: 7784305863120290384}
   m_Layer: 5
   m_Name: DecorationButton
   m_TagString: Untagged
@@ -202,6 +203,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Mask
   m_ShowMaskGraphic: 1
+--- !u!114 &7784305863120290384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3538185443224464754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a75e0d163bc2874ea42ec93bb45da23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DecorationButton
+  decoration: {fileID: 0}
+  decorationImage: {fileID: 2949787924165787548}
+  text: {fileID: 5007550871391933323}
 --- !u!1 &8136438702980129764
 GameObject:
   m_ObjectHideFlags: 0
