@@ -9,7 +9,7 @@ public class Robot : MonoBehaviour
     private List<string> falas = new List<string>();
     private int falaIndex = 0;
 
-    private String pasta = "nome da pasta em vsi estar a cena com as falas, estou a ssumir estar dentro dos assets?"
+    private string pasta = "nome da pasta em vsi estar a cena com as falas, estou a ssumir estar dentro dos assets?";
 
     void Start()
     {
