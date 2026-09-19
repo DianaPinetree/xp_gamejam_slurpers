@@ -12,7 +12,7 @@ public class PlacementSystem : MonoBehaviour
     private CameraPointerHandler pointerHandler;
     private GameObject decorationObject;
     private Vector3 localBoundBoxCenter;
-    
+
     public bool PlacingItem { get; private set; }
 
     private void Awake()
@@ -31,15 +31,34 @@ public class PlacementSystem : MonoBehaviour
         GameManager.setActivePlacementDecoration -= ActiveDecorationChange;
     }
 
+    private void Start()
+    {
+        if (indicator)
+        {
+            indicator.SetActive(false);
+        }
+    }
+
     private void Update()
     {
         if (!PlacingItem) return;
-        
+
         decorationObject.SetActive(pointerHandler.Valid);
+        if (indicator)
+        {
+            indicator.SetActive(pointerHandler.Valid);
+        }
+
         if (pointerHandler.Valid)
         {
             RaycastHit hit = pointerHandler.mainHit;
             Vector3 objectTarget = hit.point + hit.normal * 1.5f;
+
+            if (indicator)
+            {
+                indicator.transform.position = hit.point + hit.normal * 0.01f;
+                indicator.transform.rotation = Quaternion.LookRotation(-hit.normal, transform.up);
+            }
 
             decorationObject.transform.position =
                 Vector3.Lerp(decorationObject.transform.position, objectTarget, Time.deltaTime * followSpeed);
@@ -75,14 +94,16 @@ public class PlacementSystem : MonoBehaviour
 
     private void ReleaseAndPlaceItem()
     {
-        if(!PlacingItem || decorationObject == null) return;
+        if (!PlacingItem || decorationObject == null) return;
         PlacingItem = false;
+        indicator.SetActive(false);
 
         if (!pointerHandler.Valid)
         {
             Destroy(decorationObject);
             return;
         }
+
         SetDecorationLayer(LayerMask.NameToLayer("Default"));
         decorationObject.transform.position = pointerHandler.HitPoint;
         decorationObject = null; // release decoration
@@ -119,6 +140,7 @@ public class PlacementSystem : MonoBehaviour
         {
             collider.gameObject.layer = layer;
         }
+
         decorationObject.layer = layer;
     }
 }
