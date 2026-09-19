@@ -4,12 +4,19 @@ using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
+[System.Serializable]
+public class DialogoItem
+{
+    public int id;
+    public List<string> linhas;
+}
+
 public class Robot : MonoBehaviour
 {
-    private List<string> falas = new List<string>();
-    private int falaIndex = 0;
-
-    private string pasta = "nome da pasta em vsi estar a cena com as falas, estou a ssumir estar dentro dos assets?";
+    private List<DialogoItem> dialogos = new List<DialogoItem>();
+    private List<int> indicesNaoUsados = new List<int>();
+    private bool todasForamDitas = false;
+    private string pasta = "Resources"; 
 
     void Start()
     {
@@ -17,21 +24,15 @@ public class Robot : MonoBehaviour
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            var dados = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json);
-            if (dados != null)
+            dialogos = JsonConvert.DeserializeObject<List<DialogoItem>>(json);
+            if (dialogos != null && dialogos.Count > 0)
             {
-                foreach (var item in dados)
-                {
-                    foreach (var kvp in item)
-                    {
-                        falas.Add(kvp.Value);
-                    }
-                }
+                ResetIndicesNaoUsados();
             }
         }
         else
         {
-            Debug.LogError($"Ficheiro de falas não encontrado");
+            Debug.LogError($"Ficheiro de falas não encontrado ");
         }
     }
 
@@ -40,36 +41,60 @@ public class Robot : MonoBehaviour
 
     }
 
-    public void EscolhaFala(bool interagir, float tempoEspera = 5.0f)
+    public void EscolhaFala(bool interagir, System.Action<List<string>> aoObterFala, float tempoEspera = 4.0f)
     {
         if (interagir)
         {
-            string fala = ObterFala();
+            List<string> linhas = ObterFala();
+            aoObterFala?.Invoke(linhas);
         }
         else
         {
-            StartCoroutine(aguardar(tempoEspera));
+            StartCoroutine(Aguardar(tempoEspera, aoObterFala));
         }
     }
 
-    private IEnumerator aguardar(float segundos)
+    private IEnumerator Aguardar(float segundos, System.Action<List<string>> aoObterFala)
     {
         yield return new WaitForSeconds(segundos);
-        string fala = ObterFala();
+        List<string> linhas = ObterFala();
+        aoObterFala?.Invoke(linhas);
     }
 
-    public string ObterFala()
+    public List<string> ObterFala()
     {
-        if (falas.Count == 0) return string.Empty;
+        if (dialogos == null || dialogos.Count == 0) 
+            return new List<string>();
 
-        string fala = falas[falaIndex];
-        
-        falaIndex++;
-        if (falaIndex >= falas.Count)
+        int dialogoIndex = 0;
+
+        if (!todasForamDitas)
         {
-            falaIndex = 0;
+            int randomIndex = Random.Range(0, indicesNaoUsados.Count);
+            dialogoIndex = indicesNaoUsados[randomIndex];
+            indicesNaoUsados.RemoveAt(randomIndex);
+
+            if (indicesNaoUsados.Count == 0)
+            {
+                todasForamDitas = true;
+            }
+        }
+        else
+        {
+            dialogoIndex = Random.Range(0, dialogos.Count);
         }
 
-        return fala;
+        List<string> linhasAtuais = dialogos[dialogoIndex].linhas;
+
+        return linhasAtuais;
+    }
+
+    private void ResetIndicesNaoUsados()
+    {
+        indicesNaoUsados.Clear();
+        for (int i = 0; i < dialogos.Count; i++)
+        {
+            indicesNaoUsados.Add(i);
+        }
     }
 }

@@ -1,13 +1,54 @@
- {
-    "1": " What a fun coincidence, that’s my favorite color.",
-    "2": "The rain is so comforting, don’t you agree? I used to love playing in the rain.",
-    "3":"Have you noticed that a lot of customers compliment that painting? I was the one to choose it. My friends have always told me I had great taste.",
-    "4":"If I had to choose, I would choose that too. As a second option, but nonetheless.",
-    "5":"How many cookies could a good cook cook If a good cook could cook cookies? A good cook could cook as much cookies  as a good cook who could cook cookies.",
-    "6":"You are really good at decorating, Ever thought about changing careers?",
-    "7":"If I say ramen three times, would a ramen bowl appear?",
-    "8":"Channel your inner noodle. Unless it’s salty.",
-    "9":"Egg-cellent choice.",
-    "10":"What font do noodles use when typing? Times New Ramen"
- }
- 
+[
+  {
+    "id": 1,
+    "linhas": ["What font do noodles use when typing?", "Times New Ramen"]
+  },
+  {
+    "id": 2,
+    "linhas": ["Egg-cellent choice."]
+  },
+  {
+    "id": 3,
+    "linhas": ["Channel your inner noodle.", "Unless it’s salty."]
+  },
+  {
+    "id": 4,
+    "linhas": ["If I say ramen three times,", "Would a ramen bowl appear?"]
+  },
+  {
+    "id": 5,
+    "linhas": ["You are really good at decorating,", "Ever thought about changing careers?"]
+  },
+  {
+    "id": 6,
+    "linhas": ["What a fun coincidence,", "that’s my favorite color."]
+  },
+  {
+    "id": 7,
+    "linhas": ["The rain is so comforting, don’t you agree?", "I used to love playing in the rain."]
+  },
+  {
+    "id": 8,
+    "linhas": [
+      "Have you noticed that a lot of customers compliment that painting?",
+      "I was the one to choose it.",
+      "My friends have always told me I had great taste."
+    ]
+  },
+  {
+    "id": 9,
+    "linhas": [
+      "If I had to choose, I would choose that too.",
+      "As a second option, but nonetheless."
+    ]
+  },
+  {
+    "id": 10,
+    "linhas": [
+      "How many cookies could a good cook cook",
+      "If a good cook could cook cookies?",
+      "A good cook could cook as much cookies",
+      "as a good cook who could cook cookies."
+    ]
+  }
+]
