@@ -184,7 +184,9 @@ public class PlacementSystem : MonoBehaviour
         }
         else if (currentDecorData.type == DecorationType.Ceiling)
         {
-            decorationObject.transform.position = pointerHandler.HitPoint + Vector3.up * 4;
+            Vector3 finalPoint = pointerHandler.HitPoint;
+            finalPoint.y = 4f;
+            decorationObject.transform.position = finalPoint;
         }
         else
         {
