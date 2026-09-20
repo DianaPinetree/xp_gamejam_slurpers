@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf92e423db0fb540a65cafcba76c7ab, type: 3}
+  m_Name: Plant
+  m_EditorClassIdentifier: Assembly-CSharp::Decoration
+  decorationImage: {fileID: 21300000, guid: 20079d6986bae8c45a1bda143066d07d, type: 3}
+  decorationName: Plant
+  type: 0
+  decorationPrefab: {fileID: 6930193366516486884, guid: 911d59f38689fa84aac689a90fac3fbb, type: 3}

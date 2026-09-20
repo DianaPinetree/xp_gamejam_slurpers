@@ -22,6 +22,7 @@ public class CameraPointerHandler : MonoBehaviour
     }
 
     public bool Valid { get; private set; }
+    public bool FoundHits { get; private set; }
 
     private RaycastHit[] hits;
 

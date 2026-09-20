@@ -1,17 +1,23 @@
 ﻿using System;
+using DG.Tweening;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 // Uses CameraPointerHandler and decoration system to place objects in the environment
 public class PlacementSystem : MonoBehaviour
 {
+    [SerializeField] private Color indicatorBadColor = Color.red;
     [SerializeField] private float followSpeed = 3f;
     [SerializeField] private float rotationSpeed = 20f;
     [SerializeField] private GameObject indicator;
     private CameraPointerHandler pointerHandler;
     private GameObject decorationObject;
     private Vector3 localBoundBoxCenter;
+    private Decoration currentDecorData;
+
+    private bool validPlacement;
 
     public bool PlacingItem { get; private set; }
 
@@ -43,10 +49,39 @@ public class PlacementSystem : MonoBehaviour
     {
         if (!PlacingItem) return;
 
+        validPlacement = pointerHandler.Valid;
         decorationObject.SetActive(pointerHandler.Valid);
+        if (pointerHandler.mainHit.transform)
+        {
+            Placeable placeable = pointerHandler.mainHit.transform.GetComponent<Placeable>();
+            if (placeable && !placeable.allowsOnTop)
+            {
+                validPlacement = false;
+            }
+        }
+
+        float dot = Vector3.Dot(pointerHandler.mainHit.normal, decorationObject.transform.up);
+        if (currentDecorData.type == DecorationType.Walls)
+        {
+            if (dot > 0.95f)
+            {
+                validPlacement = false;
+            }
+        }
+        else
+        {
+            if (dot < 0.95f)
+            {
+                validPlacement = false;
+            }
+        }
+
         if (indicator)
         {
             indicator.SetActive(pointerHandler.Valid);
+
+            // Please dont do this, its game jam code
+            indicator.GetComponent<MeshRenderer>().material.color = validPlacement ? Color.white : indicatorBadColor;
         }
 
         if (pointerHandler.Valid)
@@ -58,6 +93,14 @@ public class PlacementSystem : MonoBehaviour
             {
                 indicator.transform.position = hit.point + hit.normal * 0.01f;
                 indicator.transform.rotation = Quaternion.LookRotation(-hit.normal, transform.up);
+            }
+
+            if (currentDecorData.type == DecorationType.Walls)
+            {
+                Quaternion targetRot =
+                    Quaternion.FromToRotation(decorationObject.transform.right, -pointerHandler.mainHit.normal);
+                decorationObject.transform.rotation =
+                    Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotationSpeed);
             }
 
             decorationObject.transform.position =
@@ -86,9 +129,22 @@ public class PlacementSystem : MonoBehaviour
             }
         }
 
+
         if (Mouse.current.leftButton.isPressed)
         {
-            ReleaseAndPlaceItem();
+            if (!pointerHandler.Valid) // if there are no hits
+            {
+                ReleaseAndPlaceItem();
+            }
+            else if (!validPlacement)
+            {
+                decorationObject.transform.DOShakeRotation(Random.Range(0.1f, 0.2f), new Vector3(5f, 5f, 5f))
+                    .SetEase(Ease.OutCirc).OnComplete(() => decorationObject.transform.rotation = Quaternion.identity);
+            }
+            else
+            {
+                ReleaseAndPlaceItem();
+            }
         }
     }
 
@@ -105,7 +161,18 @@ public class PlacementSystem : MonoBehaviour
         }
 
         SetDecorationLayer(LayerMask.NameToLayer("Default"));
-        decorationObject.transform.position = pointerHandler.HitPoint;
+        if (currentDecorData.type == DecorationType.Walls)
+        {
+            // decorationObject.transform.rotation =
+            //     Quaternion.FromToRotation(-decorationObject.transform.right, pointerHandler.mainHit.normal);
+            decorationObject.transform.right = -pointerHandler.mainHit.normal;
+            decorationObject.transform.position = pointerHandler.HitPoint + pointerHandler.mainHit.normal * 0.01f;
+        }
+        else
+        {
+            decorationObject.transform.position = pointerHandler.HitPoint;
+        }
+
         decorationObject = null; // release decoration
     }
 
@@ -125,8 +192,12 @@ public class PlacementSystem : MonoBehaviour
     private void ActiveDecorationChange(Decoration decor)
     {
         PlacingItem = true;
+        currentDecorData = decor;
         decorationObject = decor.GetDecoration(pointerHandler.HitPoint);
-        var colliders = decorationObject.GetComponentsInChildren<Collider>();
+        if (!decorationObject.TryGetComponent<Placeable>(out Placeable pc))
+        {
+            decorationObject.AddComponent<Placeable>();
+        }
 
         int layer = LayerMask.NameToLayer("Ignore Raycast");
         SetDecorationLayer(layer);
