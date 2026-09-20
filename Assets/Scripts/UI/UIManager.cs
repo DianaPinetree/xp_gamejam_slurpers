@@ -51,12 +51,21 @@ public class UIManager : MonoBehaviour
     {
         _canvasGroup.DOFade(1, 0.6f);
     }
+
+    private void FadeOutUI()
+    {
+        _canvasGroup.DOFade(0, 0.6f);
+    }
     // Update is called once per frame
     void Update()
     {
         
     }
 
+    public static void HideGameUI()
+    {
+        instance.FadeOutUI();
+    }
     public static void ShowGameUI()
     {
         instance.FadeInUI();
