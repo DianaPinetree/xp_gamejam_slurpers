@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdf92e423db0fb540a65cafcba76c7ab, type: 3}
-  m_Name: Ramen Bowl
+  m_Name: Cup
   m_EditorClassIdentifier: Assembly-CSharp::Decoration
-  decorationImage: {fileID: 21300000, guid: d3879210ebb23224a9691722c5b29008, type: 3}
-  decorationName: Full Ramen Bowl
+  decorationImage: {fileID: 21300000, guid: 76cd0153069e92440b8f30836703f4fe, type: 3}
+  decorationName: Cup
   type: 0
-  decorationPrefab: {fileID: 8455248355395019292, guid: 0a91fc39cd09085479ef01b2afdf5f01, type: 3}
+  decorationPrefab: {fileID: 2695076481984264957, guid: 2d2aad5c09b87b648a00046a81d2a054, type: 3}
