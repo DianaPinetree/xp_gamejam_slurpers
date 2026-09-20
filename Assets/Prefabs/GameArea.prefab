@@ -242,8 +242,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlacementSystem
   indicatorBadColor: {r: 0.6792453, g: 0.26644632, b: 0.16340333, a: 1}
   followSpeed: 5
-  rotationSpeed: 15
+  rotationSpeed: 30
   indicator: {fileID: 0}
+  placeAudio: {fileID: 11400000, guid: fdcf2fac461de154f82ddcbcef2fc987, type: 2}
+  pickUpAudio: {fileID: 11400000, guid: 13d11686b1426974693deb934988b1dc, type: 2}
+  failDropAudio: {fileID: 11400000, guid: 70238ae1b1ac3c34ebb1929c512a6578, type: 2}
 --- !u!114 &6329210237440192333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   doorAnimator: {fileID: 6736994733703404850}
+  placedDecor: []
 --- !u!1 &2191137576416537157
 GameObject:
   m_ObjectHideFlags: 0

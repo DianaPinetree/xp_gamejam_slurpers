@@ -6,12 +6,31 @@ using UnityEngine;
 public class AreaManager : MonoBehaviour
 {
     [SerializeField] private Animator doorAnimator;
-    private List<GameObject> placedDecor = new List<GameObject>();
+    public List<GameObject> placedDecor = new List<GameObject>();
 
+
+    private void OnEnable()
+    {
+        GameManager.clearLevelCallback += ClearLevel;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.clearLevelCallback -= ClearLevel;
+    }
 
     private void Start()
     {
         StartGame();
+    }
+
+    private void ClearLevel()
+    {
+        for (int i = placedDecor.Count - 1; i >= 0; i--)
+        {
+            Destroy(placedDecor[i]);
+        }
+        placedDecor.Clear();
     }
 
     private void StartGame()

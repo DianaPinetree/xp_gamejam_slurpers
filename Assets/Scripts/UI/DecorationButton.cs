@@ -12,7 +12,6 @@ public class DecorationButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
     [SerializeField] private Decoration decoration;
     [SerializeField] private Image decorationImage;
     [SerializeField] private TextMeshProUGUI text;
-
     private void Awake()
     {
         if (decoration != null)

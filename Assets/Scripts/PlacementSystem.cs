@@ -12,10 +12,15 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField] private float followSpeed = 3f;
     [SerializeField] private float rotationSpeed = 20f;
     [SerializeField] private GameObject indicator;
+
+    [SerializeField] private AudioInfo placeAudio;
+    [SerializeField] private AudioInfo pickUpAudio;
+    [SerializeField] private AudioInfo failDropAudio;
     private CameraPointerHandler pointerHandler;
     private GameObject decorationObject;
     private Vector3 localBoundBoxCenter;
     private Decoration currentDecorData;
+    private AreaManager area;
 
     private bool validPlacement;
 
@@ -23,6 +28,7 @@ public class PlacementSystem : MonoBehaviour
 
     private void Awake()
     {
+        area = GetComponent<AreaManager>();
         pointerHandler = GetComponent<CameraPointerHandler>();
         PlacingItem = false;
     }
@@ -109,11 +115,17 @@ public class PlacementSystem : MonoBehaviour
             Vector3 worldCenter = decorationObject.transform.TransformPoint(localBoundBoxCenter);
             Vector3 targetDir = objectTarget - worldCenter;
             targetDir.Normalize();
-            Quaternion rotation = Quaternion.FromToRotation(transform.up, targetDir);
 
             if (Mouse.current.rightButton.isPressed)
             {
-                decorationObject.transform.Rotate(new Vector3(0, rotationSpeed * Time.deltaTime), Space.Self);
+                if (currentDecorData.type == DecorationType.Walls)
+                {
+                    decorationObject.transform.Rotate(new Vector3(rotationSpeed * Time.deltaTime, 0, 0), Space.Self);
+                }
+                else
+                {
+                    decorationObject.transform.Rotate(new Vector3(0, rotationSpeed * Time.deltaTime), Space.Self);
+                }
             }
 
             if (Mouse.current.scroll.value.magnitude > 0)
@@ -138,6 +150,7 @@ public class PlacementSystem : MonoBehaviour
             }
             else if (!validPlacement)
             {
+                failDropAudio.PlayAudio();
                 decorationObject.transform.DOShakeRotation(Random.Range(0.1f, 0.2f), new Vector3(5f, 5f, 5f))
                     .SetEase(Ease.OutCirc).OnComplete(() => decorationObject.transform.rotation = Quaternion.identity);
             }
@@ -157,6 +170,7 @@ public class PlacementSystem : MonoBehaviour
         if (!pointerHandler.Valid)
         {
             Destroy(decorationObject);
+            failDropAudio.PlayAudio();
             return;
         }
 
@@ -168,11 +182,18 @@ public class PlacementSystem : MonoBehaviour
             decorationObject.transform.right = -pointerHandler.mainHit.normal;
             decorationObject.transform.position = pointerHandler.HitPoint + pointerHandler.mainHit.normal * 0.01f;
         }
+        else if (currentDecorData.type == DecorationType.Ceiling)
+        {
+            decorationObject.transform.position = pointerHandler.HitPoint + Vector3.up * 4;
+        }
         else
         {
             decorationObject.transform.position = pointerHandler.HitPoint;
         }
 
+
+        placeAudio.PlayAudio();
+        area.placedDecor.Add(decorationObject);
         decorationObject = null; // release decoration
     }
 
@@ -192,6 +213,7 @@ public class PlacementSystem : MonoBehaviour
     private void ActiveDecorationChange(Decoration decor)
     {
         PlacingItem = true;
+        pickUpAudio.PlayAudio();
         currentDecorData = decor;
         decorationObject = decor.GetDecoration(pointerHandler.HitPoint);
         if (!decorationObject.TryGetComponent<Placeable>(out Placeable pc))

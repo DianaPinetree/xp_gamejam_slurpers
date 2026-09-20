@@ -6,6 +6,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static event Action<Decoration> setActivePlacementDecoration;
+    public static event Action clearLevelCallback;
+    public static event Action startGameCallback;
     // Singleton Pattern
     public static GameManager Instance
     {
@@ -40,5 +42,15 @@ public class GameManager : MonoBehaviour
     public void SendDecorationSelect_Action(Decoration decor)
     {
         setActivePlacementDecoration?.Invoke(decor);
+    }
+
+    public void ClearLevel()
+    {
+        clearLevelCallback?.Invoke();
+    }
+
+    public void StartGame()
+    {
+        startGameCallback?.Invoke();
     }
 }
