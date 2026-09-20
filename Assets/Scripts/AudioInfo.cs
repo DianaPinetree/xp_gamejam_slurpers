@@ -4,9 +4,17 @@
 public class AudioInfo : ScriptableObject
 {
     public AudioClip clip;
+    private float lastPlayedTime = 0;
+    private const float minTime = 0.2f;
 
     public AudioSource PlayAudio()
     {
+        if (lastPlayedTime > Time.time - minTime)
+        {
+            return null;
+        }
+
+        lastPlayedTime = Time.time;
         var go = new GameObject("Audio Source - " + name);
         AudioSource source = go.AddComponent<AudioSource>();
         source.clip = clip;
